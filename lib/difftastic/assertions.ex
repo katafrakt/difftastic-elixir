@@ -6,11 +6,16 @@ defmodule Difftastic.Assertions do
       left = unquote(value1)
       right = unquote(value2)
 
-      if(left != right) do
-        message = Difftastic.diff(left, right, unquote(format))
-        flunk(message)
-      else
-        assert true
+      cond do
+        not Difftastic.available?() ->
+          assert left == right
+
+        left != right ->
+          message = Difftastic.diff(left, right, unquote(format))
+          flunk(message)
+
+        true ->
+          assert true
       end
     end
   end

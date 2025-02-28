@@ -3,6 +3,8 @@ defmodule Difftastic do
   Documentation for `Difftastic`.
   """
 
+  def available?, do: Difftastic.CLI.available?()
+
   def diff(v1, v2, format) when not is_binary(v1) do
     diff(inspect(v1, pretty: true), v2, format)
   end
