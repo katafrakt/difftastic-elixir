@@ -3,7 +3,18 @@ defmodule Difftastic do
   Documentation for `Difftastic`.
   """
 
+  @doc """
+  Returns whether or not the Difftastic binary is available.
+  """
+  @spec available? :: boolean()
   def available?, do: Difftastic.CLI.available?()
+
+  @doc """
+  Runs a diff for two provided values in a given `format`. If any of them is not a string,
+  it gets `inspect`ed first.
+  """
+  @spec diff(any(), any(), String.t()) :: String.t()
+  def diff(value1, value2, format)
 
   def diff(v1, v2, format) when not is_binary(v1) do
     diff(inspect(v1, pretty: true), v2, format)
