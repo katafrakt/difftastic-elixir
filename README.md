@@ -2,7 +2,7 @@
 
 This library, inspired by [difftastic-ruby](https://github.com/joeldrapper/difftastic-ruby), provides integration with [Difftastic](https://difftastic.wilfred.me.uk/) - a next-level diffing tool based on tree-sitter.
 
-ExUnit's default diffs are great fo Elixir data structures, but when you have a big chunk of string, for example a HTML file (renderd email or LiveView component), it falls a bit short.
+ExUnit's default diffs are great for Elixir data structures, but when you have a big chunk of data, for example a HTML file (renderd email or LiveView component), it falls a bit short.
 
 ![](assets/html_ex_unit.png)
 
@@ -28,7 +28,7 @@ end
 
 ## Usage
 
-This library relies on Difftastic being installed on your machine. It won't download or install it for you (unlike the Ruby counterpart). Refer to your sysstem or distribution package manager to see how to install it. Tested examples:
+This library relies on Difftastic being installed on your machine. It won't download or install it for you (unlike the Ruby counterpart). Refer to your system or distribution package manager to see how to install it. Tested examples:
 
 * In Arch Linux: `pacman -S difftastic`
 * In MacOS: `brew install difftastic`
@@ -55,7 +55,7 @@ defmodule UuidGeneratorTest do
 end
 ```
 
-> [!CAUTION]
+> [!WARNING]
 > Using `difft_assert_equal` brings a certain performance penalty. Difftastic is a CLI tool and using it from Elixir involves creating a files in temporary dir and running a system command against them. On my machine it can be as much as 300x slower than a regular `assert` on simple values. Make sure to use it when it really makes sense - for example for comparing large outputs - but not for everything.
 
 ## State of development
