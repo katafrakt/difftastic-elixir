@@ -37,4 +37,21 @@ defmodule Difftastic do
       File.rm(t2)
     end)
   end
+
+  @doc """
+  Compares value with the contents of the file under `file_path`, returning the diff
+  if they are not equal.
+  """
+  def diff_with_file(value, file_path) when is_binary(value) do
+    format = Path.extname(file_path)
+    tempfile = Difftastic.Tempfile.create(format, value)
+
+    case Difftastic.CLI.run(tempfile, file_path) do
+      {:ok, result} -> result
+      {:error, error} -> inspect(error)
+    end
+    |> tap(fn _ ->
+      File.rm(tempfile)
+    end)
+  end
 end
