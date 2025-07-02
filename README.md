@@ -58,6 +58,30 @@ end
 > [!WARNING]
 > Using `difft_assert_equal` brings a certain performance penalty. Difftastic is a CLI tool and using it from Elixir involves creating a files in temporary dir and running a system command against them. On my machine it can be as much as 300x slower than a regular `assert` on simple values. Make sure to use it when it really makes sense - for example for comparing large outputs - but not for everything.
 
+### Snapshot Testing
+
+The library also provides snapshot testing functionality, which is useful for comparing complex outputs against saved references. This is particularly valuable for HTML, JSON, or other structured outputs that change infrequently but need visual inspection when they do.
+
+```elixir
+defmodule EmailTemplateTest do
+  use ExUnit.Case
+  use Difftastic.SnapshotTest, dir: "test/snapshots"
+
+  test "welcome email renders correctly" do
+    html = EmailRenderer.render_template(:welcome, user: user)
+    assert_snapshot_match("welcome_email.html", html)
+  end
+end
+```
+
+The first time the test runs, it will create the snapshot file. On subsequent runs, it will compare the current output with the saved snapshot, showing a visual diff using Difftastic if they don't match.
+
+To update snapshots when the expected output intentionally changes, run:
+
+```bash
+UPDATE_SNAPSHOTS=1 mix test
+```
+
 ## State of development
 
 This is a very early version, expect potential large changes in the future, including breaking ones. Note that this library does not use SemVer, but rather something closer to [BreakVer](https://www.taoensso.com/break-versioning).

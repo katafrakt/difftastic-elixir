@@ -1,6 +1,27 @@
 defmodule Difftastic do
   @moduledoc """
   Documentation for `Difftastic`.
+
+  ## Snapshot Testing
+
+  Difftastic provides snapshot testing functionality that can be used to compare outputs
+  with saved references, displaying visual diffs when they don't match.
+
+  ```elixir
+  use Difftastic.SnapshotTest, dir: "path/to/snapshots"
+
+  test "email renders correctly" do
+    html = EmailRenderer.render_template(:welcome, user: user)
+    assert_snapshot_match("welcome_email.html", html)
+  end
+  ```
+
+  Snapshots are automatically created if they don't exist. To update existing snapshots,
+  run tests with the `UPDATE_SNAPSHOTS=1` environment variable:
+
+  ```
+  UPDATE_SNAPSHOTS=1 mix test
+  ```
   """
 
   @doc """
